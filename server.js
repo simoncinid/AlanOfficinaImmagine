@@ -76,26 +76,32 @@ app.post('/api/conversation', async (req, res) => {
 
 /* ==================================================================== *
  *  POST /api/analyze                                                   *
- *  - Manda l'intera conversazione a GPT‑4o                              *
+ *  - Manda l'intera conversazione a GPT-4                              *
  *  - Estrae { fullName, emailAddress, phoneNumber, description, userType }
  * ==================================================================== */
 app.post('/api/analyze', async (req, res) => {
   const { messages } = req.body;
   const prompt = `
-You are a JSON extractor. From the conversation below, return ONLY a JSON with:
-fullName, emailAddress, phoneNumber, description, userType.
-If a field is missing, use an empty string.
+Analizza la conversazione e estrai le seguenti informazioni in formato JSON:
+- fullName: nome e cognome del cliente
+- emailAddress: email del cliente
+- phoneNumber: numero di telefono del cliente
+- description: descrizione dettagliata di cosa vuole fare il cliente
+- userType: tipo di cliente (es. privato, azienda, etc.)
 
-Conversation:
+Se un'informazione non è presente, usa una stringa vuota.
+La risposta deve essere SOLO il JSON, senza altre parole.
+
+Conversazione:
 ${JSON.stringify(messages)}
 `.trim();
 
   try {
     const comp = await openai.chat.completions.create({
-      model: 'gpt-4o',
+      model: 'gpt-4',
       temperature: 0,
       messages: [
-        { role: 'system', content: 'Extract customer info to JSON.' },
+        { role: 'system', content: 'Sei un analizzatore di conversazioni. Estrai le informazioni richieste in formato JSON.' },
         { role: 'user',   content: prompt }
       ]
     });
@@ -104,7 +110,15 @@ ${JSON.stringify(messages)}
     if (raw.startsWith('```'))
       raw = raw.replace(/^```json\s*/i, '').replace(/```$/, '').trim();
 
-    res.json(JSON.parse(raw));
+    const data = JSON.parse(raw);
+    
+    // Verifica se abbiamo tutte le informazioni necessarie
+    const hasRequiredInfo = data.fullName && data.phoneNumber && data.description;
+    
+    res.json({
+      ...data,
+      isComplete: hasRequiredInfo
+    });
   } catch (err) {
     console.error('❌ /api/analyze error:', err);
     res.status(500).json({ error: err.message });

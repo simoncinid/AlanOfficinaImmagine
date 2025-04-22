@@ -301,4 +301,70 @@ h1 {
 @keyframes typing {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-5px); }
+}
+
+/* Stili per il form di conferma */
+.confirmation-form {
+    background-color: var(--white);
+    padding: 20px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    max-width: 100%;
+}
+
+.confirmation-form h3 {
+    color: var(--primary-pink);
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: var(--text-color);
+    font-weight: 500;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid var(--soft-pink);
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.form-group textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary-pink);
+}
+
+.confirm-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--primary-pink);
+    color: var(--white);
+    border: none;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+}
+
+.confirm-btn:hover {
+    background-color: var(--dark-pink);
+    transform: translateY(-2px);
 } 

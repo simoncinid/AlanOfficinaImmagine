@@ -3,6 +3,7 @@ class ChatApp {
         this.threadId = null;
         this.messages = [];
         this.serverUrl = 'https://test2-lnlb.onrender.com';
+        this.userData = null;
         this.initializeElements();
         this.initializeEventListeners();
     }
@@ -128,11 +129,75 @@ class ChatApp {
             });
 
             const data = await response.json();
-            this.displayAnalysisResults(data);
+            this.userData = data;
+            
+            if (data.isComplete) {
+                this.showConfirmationForm(data);
+            } else {
+                this.addMessage('Mi dispiace, non ho raccolto tutte le informazioni necessarie. Potresti fornirmi nome, telefono e descrizione di cosa vorresti fare?', 'assistant');
+            }
         } catch (error) {
             console.error('Errore durante l\'analisi:', error);
-            alert('Si è verificato un errore durante l\'analisi della conversazione');
+            this.addMessage('Si è verificato un errore durante l\'analisi della conversazione', 'assistant');
         }
+    }
+
+    showConfirmationForm(data) {
+        const formHtml = `
+            <div class="confirmation-form">
+                <h3>Conferma i tuoi dati</h3>
+                <div class="form-group">
+                    <label>Nome e Cognome</label>
+                    <input type="text" id="fullName" value="${data.fullName || ''}" placeholder="Nome e Cognome">
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="emailAddress" value="${data.emailAddress || ''}" placeholder="Email">
+                </div>
+                <div class="form-group">
+                    <label>Telefono</label>
+                    <input type="tel" id="phoneNumber" value="${data.phoneNumber || ''}" placeholder="Telefono">
+                </div>
+                <div class="form-group">
+                    <label>Descrizione</label>
+                    <textarea id="description" placeholder="Descrizione">${data.description || ''}</textarea>
+                </div>
+                <div class="form-group">
+                    <label>Tipo Cliente</label>
+                    <input type="text" id="userType" value="${data.userType || ''}" placeholder="Tipo Cliente">
+                </div>
+                <button class="confirm-btn" id="confirmData">Conferma Dati</button>
+            </div>
+        `;
+
+        const messageDiv = document.createElement('div');
+        messageDiv.className = 'message assistant-message';
+        messageDiv.innerHTML = formHtml;
+        this.chatMessages.appendChild(messageDiv);
+        this.chatMessages.scrollTop = this.chatMessages.scrollHeight;
+
+        // Aggiungi l'event listener per il pulsante di conferma
+        document.getElementById('confirmData').addEventListener('click', () => this.confirmUserData());
+    }
+
+    confirmUserData() {
+        // Aggiorna i dati con i valori modificati dall'utente
+        this.userData = {
+            fullName: document.getElementById('fullName').value,
+            emailAddress: document.getElementById('emailAddress').value,
+            phoneNumber: document.getElementById('phoneNumber').value,
+            description: document.getElementById('description').value,
+            userType: document.getElementById('userType').value
+        };
+
+        // Rimuovi il form di conferma
+        const confirmationForm = document.querySelector('.confirmation-form');
+        if (confirmationForm) {
+            confirmationForm.remove();
+        }
+
+        // Aggiungi il messaggio di ringraziamento
+        this.addMessage('Grazie per aver confermato i tuoi dati! Ti contatteremo presto per procedere con la tua richiesta.', 'assistant');
     }
 
     displayAnalysisResults(data) {
