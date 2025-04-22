@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Assistant</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            <div class="header-content">
+                <img src="https://placehold.co/40x40" alt="Logo" class="logo">
+                <h1>Alan Officina Immagine</h1>
+            </div>
+            <div class="header-actions">
+                <button class="analyze-btn" id="analyzeBtn">
+                    <i class="fas fa-chart-pie"></i>
+                    Analizza Conversazione
+                </button>
+            </div>
+        </div>
+        
+        <div class="chat-messages" id="chatMessages">
+            <!-- I messaggi verranno aggiunti qui dinamicamente -->
+        </div>
+
+        <div class="chat-input-container">
+            <div class="input-wrapper">
+                <textarea 
+                    id="messageInput" 
+                    placeholder="Scrivi il tuo messaggio..."
+                    rows="1"
+                ></textarea>
+                <button id="sendButton" class="send-button">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="analysis-modal" id="analysisModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Analisi della Conversazione</h2>
+                <button class="close-modal" id="closeModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="analysis-result" id="analysisResult">
+                    <!-- I risultati dell'analisi verranno mostrati qui -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 
