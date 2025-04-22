@@ -68,6 +68,11 @@ class ChatApp {
             if (lastMessage && lastMessage.role === 'assistant') {
                 this.addMessage(lastMessage.content[0].text.value, 'assistant');
             }
+
+            // Se l'analisi è completa, mostra il form di conferma
+            if (data.analysis && data.analysis.isComplete) {
+                this.showConfirmationForm(data.analysis);
+            }
         } catch (error) {
             console.error('Errore durante l\'invio del messaggio:', error);
             this.removeTypingIndicator();
@@ -143,6 +148,11 @@ class ChatApp {
     }
 
     showConfirmationForm(data) {
+        // Se il form è già presente, non mostrarlo di nuovo
+        if (document.querySelector('.confirmation-form')) {
+            return;
+        }
+
         const formHtml = `
             <div class="confirmation-form">
                 <h3>Conferma i tuoi dati</h3>

@@ -40,7 +40,8 @@ app.use(cors());                 // CORS aperto; limita con { origin: "<dominio>
  *  - Se threadId è null, crea thread e salva l'id                      *
  *  - Aggiunge il messaggio utente                                      *
  *  - Avvia run e attende completamento                                 *
- *  - Ritorna: { threadId, messages }                                   *
+ *  - Analizza la conversazione                                         *
+ *  - Ritorna: { threadId, messages, analysis }                         *
  * ==================================================================== */
 app.post('/api/conversation', async (req, res) => {
   const { threadId, message } = req.body;
@@ -67,7 +68,15 @@ app.post('/api/conversation', async (req, res) => {
     }
 
     const msgs = await openai.beta.threads.messages.list(id);
-    res.json({ threadId: id, messages: msgs.data });
+    
+    // Analizza la conversazione
+    const analysis = await analyzeConversation(msgs.data);
+    
+    res.json({ 
+      threadId: id, 
+      messages: msgs.data,
+      analysis: analysis
+    });
   } catch (err) {
     console.error('❌ /api/conversation error:', err);
     res.status(500).json({ error: err.message });
@@ -124,6 +133,61 @@ ${JSON.stringify(messages)}
     res.status(500).json({ error: err.message });
   }
 });
+
+/* ==================================================================== *
+ *  Funzione per analizzare la conversazione                            *
+ * ==================================================================== */
+async function analyzeConversation(messages) {
+  const prompt = `
+Analizza la conversazione e estrai le seguenti informazioni in formato JSON:
+- fullName: nome e cognome del cliente
+- emailAddress: email del cliente
+- phoneNumber: numero di telefono del cliente
+- description: descrizione dettagliata di cosa vuole fare il cliente
+- userType: tipo di cliente (es. privato, azienda, etc.)
+
+Se un'informazione non è presente, usa una stringa vuota.
+La risposta deve essere SOLO il JSON, senza altre parole.
+
+Conversazione:
+${JSON.stringify(messages)}
+`.trim();
+
+  try {
+    const comp = await openai.chat.completions.create({
+      model: 'gpt-4',
+      temperature: 0,
+      messages: [
+        { role: 'system', content: 'Sei un analizzatore di conversazioni. Estrai le informazioni richieste in formato JSON.' },
+        { role: 'user',   content: prompt }
+      ]
+    });
+
+    let raw = comp.choices[0].message.content.trim();
+    if (raw.startsWith('```'))
+      raw = raw.replace(/^```json\s*/i, '').replace(/```$/, '').trim();
+
+    const data = JSON.parse(raw);
+    
+    // Verifica se abbiamo tutte le informazioni necessarie
+    const hasRequiredInfo = data.fullName && data.phoneNumber && data.description;
+    
+    return {
+      ...data,
+      isComplete: hasRequiredInfo
+    };
+  } catch (err) {
+    console.error('❌ Errore nell\'analisi della conversazione:', err);
+    return {
+      fullName: '',
+      emailAddress: '',
+      phoneNumber: '',
+      description: '',
+      userType: '',
+      isComplete: false
+    };
+  }
+}
 
 /* ---------- avvio server ---------- */
 const PORT = process.env.PORT || 8080;
