@@ -12,10 +12,6 @@ class ChatApp {
         this.messageInput = document.getElementById('messageInput');
         this.sendButton = document.getElementById('sendButton');
         this.chatMessages = document.getElementById('chatMessages');
-        this.analyzeBtn = document.getElementById('analyzeBtn');
-        this.analysisModal = document.getElementById('analysisModal');
-        this.closeModal = document.getElementById('closeModal');
-        this.analysisResult = document.getElementById('analysisResult');
     }
 
     initializeEventListeners() {
@@ -25,11 +21,6 @@ class ChatApp {
                 e.preventDefault();
                 this.sendMessage();
             }
-        });
-        this.analyzeBtn.addEventListener('click', () => this.analyzeConversation());
-        this.closeModal.addEventListener('click', () => this.closeAnalysisModal());
-        this.analysisModal.addEventListener('click', (e) => {
-            if (e.target === this.analysisModal) this.closeAnalysisModal();
         });
     }
 
