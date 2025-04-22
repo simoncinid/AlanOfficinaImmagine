@@ -2,6 +2,7 @@ class ChatApp {
     constructor() {
         this.threadId = null;
         this.messages = [];
+        this.serverUrl = 'https://test2-lnlb.onrender.com';
         this.initializeElements();
         this.initializeEventListeners();
     }
@@ -44,7 +45,7 @@ class ChatApp {
         this.showTypingIndicator();
 
         try {
-            const response = await fetch('/api/conversation', {
+            const response = await fetch(`${this.serverUrl}/api/conversation`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -116,7 +117,7 @@ class ChatApp {
         }
 
         try {
-            const response = await fetch('/api/analyze', {
+            const response = await fetch(`${this.serverUrl}/api/analyze`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
