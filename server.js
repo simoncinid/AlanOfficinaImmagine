@@ -33,7 +33,7 @@ const openai = new OpenAI({ apiKey: OPENAI_KEY });
 /* ---------- Express app ---------- */
 const app = express();
 app.use(express.json());
-app.use(cors());                 // CORS aperto; limita con { origin: "<dominio>" } se serve
+app.use(cors({ origin: '*' }));   // CORS configurato per consentire tutte le origini
 
 /* ==================================================================== *
  *  POST /api/conversation                                              *
