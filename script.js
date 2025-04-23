@@ -202,8 +202,7 @@ class ChatApp {
             confirmationForm.remove();
         }
 
-        // Aggiungi il messaggio di ringraziamento
-        this.addMessage('Grazie per aver confermato i tuoi dati! Ti contatteremo presto per procedere con la tua richiesta.', 'assistant');
+       
     }
 
     displayAnalysisResults(data) {

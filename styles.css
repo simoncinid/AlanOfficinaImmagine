@@ -309,7 +309,11 @@ h1 {
     padding: 20px;
     border-radius: var(--border-radius);
     box-shadow: var(--shadow);
-    max-width: 100%;
+    width: 90%;
+    max-width: 700px;
+    max-height: 50vh;
+    overflow-y: auto;
+    margin: 0 auto;
 }
 
 .confirmation-form h3 {
