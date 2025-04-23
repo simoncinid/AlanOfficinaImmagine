@@ -177,7 +177,7 @@ class ChatApp {
         `;
 
         const messageDiv = document.createElement('div');
-        messageDiv.className = 'message assistant-message';
+        messageDiv.className = 'message assistant-message confirmation-message';
         messageDiv.innerHTML = formHtml;
         this.chatMessages.appendChild(messageDiv);
         this.chatMessages.scrollTop = this.chatMessages.scrollHeight;

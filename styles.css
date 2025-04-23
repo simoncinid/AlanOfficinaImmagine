@@ -305,72 +305,35 @@ h1 {
 
 /* Stili per il form di conferma */
 .confirmation-form {
-    background-color: var(--white);
-    padding: 20px;
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow);
-    width: 90%;
-    max-width: 700px;
-    max-height: 50vh;
-    overflow-y: auto;
-    margin: 0 auto;
+    background: transparent;
+    padding: 10px 0;
+    border-radius: 0;
+    box-shadow: none;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
 }
 
 .confirmation-form h3 {
+    grid-column: 1 / -1;
     color: var(--primary-pink);
-    margin-bottom: 20px;
+    margin-bottom: 0.5rem;
     text-align: center;
 }
 
-.form-group {
-    margin-bottom: 15px;
+.confirmation-form .form-group {
+    margin: 0;
 }
 
-.form-group label {
-    display: block;
-    margin-bottom: 5px;
-    color: var(--text-color);
-    font-weight: 500;
-}
-
-.form-group input,
-.form-group textarea {
+.confirmation-form input,
+.confirmation-form textarea {
     width: 100%;
-    padding: 10px;
-    border: 2px solid var(--soft-pink);
-    border-radius: var(--border-radius);
-    font-size: 1rem;
-    transition: border-color 0.3s ease;
 }
 
-.form-group textarea {
-    min-height: 100px;
-    resize: vertical;
-}
-
-.form-group input:focus,
-.form-group textarea:focus {
-    outline: none;
-    border-color: var(--primary-pink);
-}
-
-.confirm-btn {
-    width: 100%;
-    padding: 12px;
-    background-color: var(--primary-pink);
-    color: var(--white);
-    border: none;
-    border-radius: var(--border-radius);
-    font-size: 1rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin-top: 10px;
-}
-
-.confirm-btn:hover {
-    background-color: var(--dark-pink);
-    transform: translateY(-2px);
+.confirmation-form .confirm-btn {
+    grid-column: 1 / -1;
+    margin-top: 1rem;
 }
 
 /* Markdown styling per le risposte dell'assistente */
@@ -403,4 +366,11 @@ h1 {
     max-width: 100%;
     height: auto;
     margin: 1em 0;
+}
+
+/* Override per il bubble di conferma */
+.confirmation-message {
+    max-width: none;
+    width: 100%;
+    align-self: stretch;
 } 
