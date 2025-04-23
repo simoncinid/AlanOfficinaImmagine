@@ -367,4 +367,36 @@ h1 {
 .confirm-btn:hover {
     background-color: var(--dark-pink);
     transform: translateY(-2px);
+}
+
+/* Markdown styling per le risposte dell'assistente */
+.assistant-message pre {
+    background-color: var(--soft-pink);
+    padding: 10px;
+    border-radius: var(--border-radius);
+    overflow-x: auto;
+    font-family: monospace;
+    margin: 1em 0;
+}
+.assistant-message code {
+    background-color: var(--soft-pink);
+    padding: 2px 4px;
+    border-radius: var(--border-radius);
+    font-family: monospace;
+}
+.assistant-message blockquote {
+    border-left: 4px solid var(--primary-pink);
+    padding-left: 1em;
+    color: #666;
+    margin: 1em 0;
+}
+.assistant-message ul,
+.assistant-message ol {
+    margin: 1em 0;
+    padding-left: 2em;
+}
+.assistant-message img {
+    max-width: 100%;
+    height: auto;
+    margin: 1em 0;
 } 
