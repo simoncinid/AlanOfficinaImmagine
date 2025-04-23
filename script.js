@@ -157,22 +157,14 @@ class ChatApp {
                     <input type="text" id="fullName" value="${data.fullName || ''}" placeholder="Nome e Cognome">
                 </div>
                 <div class="form-group">
-                    <label>Email</label>
-                    <input type="email" id="emailAddress" value="${data.emailAddress || ''}" placeholder="Email">
-                </div>
-                <div class="form-group">
                     <label>Telefono</label>
                     <input type="tel" id="phoneNumber" value="${data.phoneNumber || ''}" placeholder="Telefono">
                 </div>
-                <div class="form-group">
+                <div class="form-group description-group">
                     <label>Descrizione</label>
                     <textarea id="description" placeholder="Descrizione">${data.description || ''}</textarea>
                 </div>
-                <div class="form-group">
-                    <label>Tipo Cliente</label>
-                    <input type="text" id="userType" value="${data.userType || ''}" placeholder="Tipo Cliente">
-                </div>
-                <button class="confirm-btn" id="confirmData">Conferma Dati</button>
+                <button class="confirm-btn" id="confirmData">Conferma</button>
             </div>
         `;
 
@@ -190,10 +182,8 @@ class ChatApp {
         // Aggiorna i dati con i valori modificati dall'utente
         this.userData = {
             fullName: document.getElementById('fullName').value,
-            emailAddress: document.getElementById('emailAddress').value,
             phoneNumber: document.getElementById('phoneNumber').value,
-            description: document.getElementById('description').value,
-            userType: document.getElementById('userType').value
+            description: document.getElementById('description').value
         };
 
         // Rimuovi il form di conferma
@@ -201,8 +191,6 @@ class ChatApp {
         if (confirmationForm) {
             confirmationForm.remove();
         }
-
-       
     }
 
     displayAnalysisResults(data) {
